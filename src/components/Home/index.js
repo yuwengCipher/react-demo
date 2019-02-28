@@ -4,7 +4,6 @@ import Button from '../button'
 
 const buttonList = [
     {path: 'Products'},
-    {path: 'Carts'}
 ]
 class Home extends Component {
     constructor (props) {

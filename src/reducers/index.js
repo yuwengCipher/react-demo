@@ -1,22 +1,7 @@
-import { RECEIVE_PRODUCTS} from "../actionTypes";
+
 import { combineReducers } from 'redux'
+import products from './products'
 
-const getAllProducts = (state = [], action) => {
-    console.log(action);
-    switch (action.type) {
-        case RECEIVE_PRODUCTS:
-            return [
-                ...state,
-                ...action.products
-            ]
-        default:
-            return state
-    }
-}
 export default combineReducers({
-    getAllProducts
+    products: products
 })
-
-export const _getAllProducts = state => {
-    return state.getAllProducts
-}

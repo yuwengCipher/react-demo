@@ -1,3 +1,11 @@
 h1{
     color: #fb7443;
 }
+.productItem{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.productItem p{
+    margin-right: 20px;
+}

@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import * as homeAction from '../../actions';
 import { Route, NavLink } from 'react-router-dom';
-import receiveProducts  from '../../reducers'
 import axios from 'axios'
 import './index.css'
 import Button from '../button'
@@ -9,44 +11,51 @@ import ProductDetail from '../ProductDetail'
 
 const buttonList = [
     {path: 'Home'},
-    {path: 'Carts'}
 ]
 
 class Products extends Component {
-    constructor (props) {
-        super(props)
-        console.log(props);
-    }
     componentWillMount () {
-        const { store } = this.context;
-        console.log(this.context);
-        console.log(store);
         axios.get('http://djacipher.cn:3389/users').then(res => {
-            console.log(res);
-            // this.props.store.dispatch(receiveProducts(res.data.products))
+            this.props.actions.receiveProducts(res.data.products)
         })
     }
     render () {
-        const { products } = this.props
+        const products = this.props.products;
+        const ProductItem = products.map( (product, index) => (
+            <div key={index}>
+                <div className={'productItem'}>
+                    <p>{product.title}</p>
+                    <p>{product.price}</p>
+                    <p>x{product.inventory}</p>
+                </div>
+                <NavLink to={`/Products/Detail/${product.id}`}>go detail</NavLink>
+            </div>
+
+        ))
         return (
             <div>
                 <h1>This Is Products!</h1>
                 <div className={'pathContainer'}>
                     <Button buttonList={buttonList}></Button>
                 </div>
+                <br/>
+                <div className="productContainer">
+                    {ProductItem}
+                </div>
                 <div>
-                    <Route path="/detail/:id" exact component={ProductDetail} />
+                    <Route path="/Detail/:id" exact component={ProductDetail} />
                 </div>
             </div>
         )
     }
 }
-// const mapStateToProps = state => {
-//     console.log(state);
-//     return {products: _getAllProducts(state.products)}
-// }
-// const mapStateToProps = state => ({
-//     products: getAllProducts(state.products)
-// })
-// export default connect(mapStateToProps)(Products)
-export default Products
+
+Products.propTypes = {
+    product: PropTypes.array.isRequired,
+    receiveProducts: PropTypes.func.isRequired
+}
+
+const mapStateToProps = (state) => ({...state.products})
+const mapDispatchToProps = dispatch => ({actions: bindActionCreators(homeAction, dispatch)})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Products)

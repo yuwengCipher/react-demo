@@ -1,6 +1,5 @@
 import React from 'react'
 import { Route } from 'react-router-dom'
-import Carts from '../components/Carts'
 import Products from '../components/Products'
 import Home from '../components/Home'
 import ProductDetail from '../components/ProductDetail'
@@ -13,12 +12,6 @@ const routes = [
         component: Home
     },
     {
-        name: '购物车',
-        link: '/Carts',
-        exact: false,
-        component: Carts
-    },
-    {
         name: '产品页',
         link: '/Products',
         exact: true,
@@ -26,7 +19,7 @@ const routes = [
     },
     {
         name: '产品详情页',
-        link: '/Products/Detail',
+        link: '/Products/Detail/:id',
         exact: false,
         component: ProductDetail
     },
